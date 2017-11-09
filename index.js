@@ -7,6 +7,7 @@ const notifier = require('node-notifier')
 const url = 'https://exchangeno1.com/'
 const currency = 'USDT'
 const interval = 60000
+const max = 26700
 let currentPrice = 0
 
 console.log('Watching money...')
@@ -20,10 +21,11 @@ function crawlPrice() {
           const price = $(this).text()
           const priceInt = Number(price.replace(',', ''))
 
-          if (!currentPrice || priceInt < currentPrice) {
+          if (!currentPrice ||
+            currentPrice < max && priceInt < currentPrice) {
             notifier.notify({
               icon: './tether-icon.png',
-              title: 'USDT',
+              title: currency,
               message: price,
               sound: true, // Only Notification Center or Windows Toasters
             })

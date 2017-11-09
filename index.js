@@ -19,18 +19,18 @@ function crawlPrice() {
         const $ = cheerio.load(html)
         $(`#buy${currency}`).filter(function() {
           const price = $(this).text()
-          const priceInt = Number(price.replace(',', ''))
+          const newPriceInt = Number(price.replace(',', ''))
 
-          if (!currentPrice ||
-            currentPrice < max && priceInt < currentPrice) {
+          if (!currentPrice || currentPrice < max && newPriceInt < currentPrice) {
             notifier.notify({
               icon: './tether-icon.png',
               title: currency,
               message: price,
               sound: true, // Only Notification Center or Windows Toasters
             })
-            currentPrice = priceInt
           }
+
+          currentPrice = newPriceInt
         })
     }
   })
